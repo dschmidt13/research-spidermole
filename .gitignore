@@ -11,7 +11,8 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
+.settings/*
+!.settings/launchers
 .loadpath
 .recommenders
 
@@ -19,7 +20,7 @@ local.properties
 .externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
-*.launch
+#*.launch
 
 # PyDev specific (Python IDE for Eclipse)
 *.pydevproject
