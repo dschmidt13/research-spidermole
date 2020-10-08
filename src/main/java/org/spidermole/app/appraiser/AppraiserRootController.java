@@ -6,12 +6,9 @@
 package org.spidermole.app.appraiser;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import org.spidermole.app.AbstractController;
-import org.spidermole.model.ResearchItem;
 
 import javafx.fxml.FXML;
 
