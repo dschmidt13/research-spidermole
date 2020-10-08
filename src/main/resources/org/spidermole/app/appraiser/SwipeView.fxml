@@ -18,11 +18,11 @@
 					<children>
 						<Button fx:id="fieldNoButton" alignment="CENTER"
 							contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0"
-							prefWidth="60.0" text="No" textAlignment="CENTER"
+							prefWidth="60.0" text="meh." textAlignment="CENTER"
 							HBox.hgrow="ALWAYS" onAction="#actionNo" />
 						<Button fx:id="fieldYesButton" alignment="CENTER"
 							contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0"
-							prefWidth="60.0" text="Yes" textAlignment="CENTER"
+							prefWidth="60.0" text="Neat!!" textAlignment="CENTER"
 							HBox.hgrow="ALWAYS" onAction="#actionYes" />
 					</children>
 					<VBox.margin>
