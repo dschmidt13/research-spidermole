@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 import org.spidermole.app.AbstractController;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 
 /**
  * AppraiserRootController
@@ -20,16 +23,17 @@ import javafx.fxml.FXML;
 public class AppraiserRootController extends AbstractController
 {
 	// Injected FXML view members.
-	// TODO
-	//	@FXML
-	//	private Object fieldSwipeFilter;
+	@FXML
+	private BorderPane fieldStreamViewContainer;
 
 	@FXML
 	private SwipeView fieldSwipeView;
 
-	// TODO
-	//	@FXML
-	//	private Object fieldResults;
+	@FXML
+	private BorderPane fieldResultViewContainer;
+
+	// Standard data members.
+	private AppraisalStreamViewController fieldStreamViewController;
 
 	public AppraiserRootController( )
 	{
@@ -39,7 +43,14 @@ public class AppraiserRootController extends AbstractController
 	@Override
 	public void destroy( )
 	{
-		super.destroy( );
+		try
+			{
+			fieldStreamViewController.destroy( );
+			}
+		finally
+			{
+			super.destroy( );
+			}
 
 	} // destroy
 
@@ -48,6 +59,21 @@ public class AppraiserRootController extends AbstractController
 	public void initialize( URL location, ResourceBundle resources )
 	{
 		super.initialize( location, resources );
+
+		// Initialize stream view.
+		try
+			{
+			FXMLLoader loader = new FXMLLoader( getClass( ).getResource( "AppraisalStreamView.fxml" ) );
+			Node view = loader.load( );
+			fieldStreamViewController = loader.getController( );
+			fieldStreamViewContainer.setCenter( view );
+			}
+		catch ( Exception exception )
+			{
+			fieldLog.error( "Failed to initialize appraisal stream view.", exception );
+			}
+
+		// TODO - Initialize results view.
 
 	} // initialize
 

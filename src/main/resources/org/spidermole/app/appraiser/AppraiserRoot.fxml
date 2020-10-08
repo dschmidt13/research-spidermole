@@ -9,7 +9,9 @@
 	fx:controller="org.spidermole.app.appraiser.AppraiserRootController">
 	<center>
 		<HBox alignment="CENTER" BorderPane.alignment="CENTER">
+			<BorderPane fx:id="fieldStreamViewContainer" />
 			<SwipeView fx:id="fieldSwipeView" />
+			<BorderPane fx:id="fieldResultsViewContainer" />
 		</HBox>
 	</center>
 </BorderPane>
