@@ -9,7 +9,6 @@ import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.spidermole.app.controllers.MainController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

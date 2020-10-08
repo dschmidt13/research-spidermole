@@ -5,6 +5,5 @@
  */
 /**
  * @author David Schmidt (dschmidt13@gmail.com)
- *
  */
-package org.spidermole.app.controllers;
+package org.spidermole.app.appraiser;

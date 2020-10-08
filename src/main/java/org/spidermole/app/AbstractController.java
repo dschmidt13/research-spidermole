@@ -3,7 +3,7 @@
  * 
  * Created: Oct 07, 2020
  */
-package org.spidermole.app.controllers;
+package org.spidermole.app;
 
 import java.net.URL;
 import java.util.ResourceBundle;

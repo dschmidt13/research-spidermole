@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.spidermole.app.appraiser.AppraisalTileView?>
+
+
+<fx:root type="BorderPane" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/9.0.1">
+	<center>
+		<VBox BorderPane.alignment="CENTER">
+			<children>
+				<AppraisalTileView fx:id="fieldTile" />
+				<HBox alignment="CENTER" spacing="5.0" VBox.vgrow="NEVER">
+					<children>
+						<Button fx:id="fieldNoButton" alignment="CENTER"
+							contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0"
+							prefWidth="60.0" text="No" textAlignment="CENTER"
+							HBox.hgrow="ALWAYS" onAction="#actionNo" />
+						<Button fx:id="fieldYesButton" alignment="CENTER"
+							contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0"
+							prefWidth="60.0" text="Yes" textAlignment="CENTER"
+							HBox.hgrow="ALWAYS" onAction="#actionYes" />
+					</children>
+					<VBox.margin>
+						<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+					</VBox.margin>
+				</HBox>
+			</children>
+		</VBox>
+	</center>
+</fx:root>
