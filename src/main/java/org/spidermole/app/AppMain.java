@@ -5,6 +5,7 @@
  */
 package org.spidermole.app;
 
+import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -25,7 +27,20 @@ public class AppMain extends Application
 {
 	// Class constants.
 	private static final Logger LOG = LogManager.getLogger( AppMain.class );
+
+	// @formatter:off
+	private static final URL[] ICON_URLS = {
+			AppMain.class.getResource( "/icons/icon-256.png" ),
+			AppMain.class.getResource( "/icons/icon-128.png" ),
+			AppMain.class.getResource( "/icons/icon-64.png" ),
+			AppMain.class.getResource( "/icons/icon-32.png" ),
+			AppMain.class.getResource( "/icons/icon-16.png" ),
+			AppMain.class.getResource( "/icons/icon-8.png" ),
+	};
+	// @formatter:on
+
 	private static final URL MAIN_UI_FXML_DOC = AppMain.class.getResource( "Main.fxml" );
+
 	private static final String WINDOW_TITLE = "Spidermole Meta-Research Tool";
 
 	// Data members.
@@ -62,6 +77,7 @@ public class AppMain extends Application
 			primaryStage.setScene( scene );
 
 			primaryStage.setTitle( WINDOW_TITLE );
+			loadAndSetIcons( primaryStage );
 
 			primaryStage.show( );
 			}
@@ -71,6 +87,25 @@ public class AppMain extends Application
 			}
 
 	} // start
+
+
+	private void loadAndSetIcons( Stage stage )
+	{
+		for ( URL iconUrl : ICON_URLS )
+			{
+			Image icon;
+			try ( InputStream iconStream = iconUrl.openStream( ) )
+				{
+				icon = new Image( iconStream );
+				stage.getIcons( ).add( icon );
+				}
+			catch ( Exception exception )
+				{
+				LOG.error( "Exception loading icon '" + iconUrl + "'.", exception );
+				}
+			}
+
+	} // loadAndSetIcons
 
 
 	@Override
