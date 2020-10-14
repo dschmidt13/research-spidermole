@@ -6,8 +6,11 @@
 package org.spidermole.app.appraiser;
 
 import static com.cloudant.client.api.query.Expression.eq;
+import static com.cloudant.client.api.query.Expression.exists;
+import static com.cloudant.client.api.query.Expression.lte;
 import static com.cloudant.client.api.query.Expression.regex;
 import static com.cloudant.client.api.query.Operation.and;
+import static com.cloudant.client.api.query.Operation.or;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -201,7 +204,9 @@ public class AppraisalStreamViewController extends AbstractController
 		// Always make sure we have the right document types.
 		andList.add( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ) );
 
-		// TODO - Exclude documents that already have an appraisal vote.
+		// Exclude documents that already have an appraisal vote.
+		andList.add( or( exists( "noVotes", false ), lte( "noVotes", Integer.valueOf( 0 ) ) ) );
+		andList.add( or( exists( "yesVotes", false ), lte( "yesVotes", Integer.valueOf( 0 ) ) ) );
 
 		// If there's filter text, filter the title using regex.
 		if ( !StringUtils.isEmpty( fieldFilterText.getText( ) ) )
