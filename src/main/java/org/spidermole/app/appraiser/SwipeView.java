@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spidermole.app.AppMain;
 import org.spidermole.model.ResearchItem;
 import org.spidermole.util.FXUtils;
 
@@ -27,6 +28,41 @@ import javafx.scene.layout.BorderPane;
  */
 public class SwipeView extends BorderPane implements Initializable
 {
+	class AppraisalSwipeEvent
+	{
+		// Data members.
+		private final ResearchItem fieldItem;
+		private final boolean fieldInterested;
+
+		public AppraisalSwipeEvent( ResearchItem item, boolean interested )
+		{
+			fieldItem = item;
+			fieldInterested = interested;
+
+		} // AppraisalSwipeEvent
+
+
+		/**
+		 * @return the item
+		 */
+		public ResearchItem getItem( )
+		{
+			return fieldItem;
+
+		} // getItem
+
+
+		/**
+		 * @return the interested
+		 */
+		public boolean isInterested( )
+		{
+			return fieldInterested;
+
+		} // isInterested
+
+	}
+
 	// Class constants.
 	private static final Logger LOG = LogManager.getLogger( SwipeView.class );
 	private static final String COMPONENT_FXML_FILENAME = "SwipeView.fxml";
@@ -51,16 +87,20 @@ public class SwipeView extends BorderPane implements Initializable
 
 	public void actionNo( )
 	{
-		// TODO
 		LOG.debug( "User said no to item '" + getResearchItem( ) + "'." );
+
+		// Root controller is listening for these.
+		AppMain.contextInstance( ).getEventBus( ).post( new AppraisalSwipeEvent( getResearchItem( ), false ) );
 
 	} // actionNo
 
 
 	public void actionYes( )
 	{
-		// TODO
 		LOG.debug( "User said yes to item '" + getResearchItem( ) + "'." );
+
+		// Root controller is listening for these.
+		AppMain.contextInstance( ).getEventBus( ).post( new AppraisalSwipeEvent( getResearchItem( ), true ) );
 
 	} // actionYes
 
@@ -73,19 +113,19 @@ public class SwipeView extends BorderPane implements Initializable
 	} // disableButtons
 
 
+	public ResearchItem getResearchItem( )
+	{
+		return fieldTile.getResearchItem( );
+
+	} // getResearchItem
+
+
 	@Override
 	public void initialize( URL location, ResourceBundle resources )
 	{
 		disableButtons( true );
 
 	} // initialize
-
-
-	public ResearchItem getResearchItem( )
-	{
-		return fieldTile.getResearchItem( );
-
-	} // getResearchItem
 
 
 	public void setResearchItem( ResearchItem researchItem )

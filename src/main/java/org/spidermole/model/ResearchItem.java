@@ -8,20 +8,48 @@ package org.spidermole.model;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * ResearchItem is a simple POJO that gets persisted as JSON in the database.
  * 
  * @author David Schmidt (dschmidt13@gmail.com)
  */
-public class ResearchItem
+public class ResearchItem extends ModelDocument
 {
+	// Class constants.
+	/**
+	 * This is the value of the {@code type} field for which documents correspond to ResearchItems.
+	 */
+	public static final String DATABASE_TYPE = "researchItem";
+
 	// Data members.
+	@SerializedName( "title" )
 	private String fieldTitle;
+
+	@SerializedName( "doi" )
 	private String fieldDOI;
+
+	@SerializedName( "authors" )
 	private List<String> fieldAuthors;
+
+	@SerializedName( "publicationDate" )
 	private Date fieldPublicationDate;
+
+	@SerializedName( "detailUrl" )
 	private String fieldDetailUrl;
+
+	@SerializedName( "sourceUrl" )
 	private String fieldSourceUrl;
+
+	@SerializedName( "createDate" )
+	private Date fieldCreateDate;
+
+	@SerializedName( "yesVotes" )
+	private Integer fieldYesVotes;
+
+	@SerializedName( "noVotes" )
+	private Integer fieldNoVotes;
 
 	public ResearchItem( )
 	{
@@ -36,6 +64,16 @@ public class ResearchItem
 		return fieldAuthors;
 
 	} // getAuthors
+
+
+	/**
+	 * @return the createDate
+	 */
+	public Date getCreateDate( )
+	{
+		return fieldCreateDate;
+
+	} // getCreateDate
 
 
 	/**
@@ -56,6 +94,16 @@ public class ResearchItem
 		return fieldDOI;
 
 	} // getDOI
+
+
+	/**
+	 * @return the noVotes
+	 */
+	public Integer getNoVotes( )
+	{
+		return fieldNoVotes;
+
+	} // getNoVotes
 
 
 	/**
@@ -89,8 +137,17 @@ public class ResearchItem
 
 
 	/**
-	 * @param authors
-	 *                the authors to set
+	 * @return the yesVotes
+	 */
+	public Integer getYesVotes( )
+	{
+		return fieldYesVotes;
+
+	} // getYesVotes
+
+
+	/**
+	 * @param authors the authors to set
 	 */
 	public void setAuthors( List<String> authors )
 	{
@@ -100,8 +157,17 @@ public class ResearchItem
 
 
 	/**
-	 * @param detailUrl
-	 *                  the detailUrl to set
+	 * @param createDate the createDate to set
+	 */
+	public void setCreateDate( Date createDate )
+	{
+		fieldCreateDate = createDate;
+
+	} // setCreateDate
+
+
+	/**
+	 * @param detailUrl the detailUrl to set
 	 */
 	public void setDetailUrl( String detailUrl )
 	{
@@ -110,8 +176,7 @@ public class ResearchItem
 
 
 	/**
-	 * @param dOI
-	 *            the dOI to set
+	 * @param dOI the dOI to set
 	 */
 	public void setDOI( String dOI )
 	{
@@ -121,8 +186,17 @@ public class ResearchItem
 
 
 	/**
-	 * @param publicationDate
-	 *                        the publicationDate to set
+	 * @param noVotes the noVotes to set
+	 */
+	public void setNoVotes( Integer noVotes )
+	{
+		fieldNoVotes = noVotes;
+
+	} // setNoVotes
+
+
+	/**
+	 * @param publicationDate the publicationDate to set
 	 */
 	public void setPublicationDate( Date publicationDate )
 	{
@@ -132,8 +206,7 @@ public class ResearchItem
 
 
 	/**
-	 * @param sourceUrl
-	 *                  the sourceUrl to set
+	 * @param sourceUrl the sourceUrl to set
 	 */
 	public void setSourceUrl( String sourceUrl )
 	{
@@ -142,14 +215,23 @@ public class ResearchItem
 
 
 	/**
-	 * @param title
-	 *              the title to set
+	 * @param title the title to set
 	 */
 	public void setTitle( String title )
 	{
 		fieldTitle = title;
 
 	} // setTitle
+
+
+	/**
+	 * @param yesVotes the yesVotes to set
+	 */
+	public void setYesVotes( Integer yesVotes )
+	{
+		fieldYesVotes = yesVotes;
+
+	} // setYesVotes
 
 
 	@Override

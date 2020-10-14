@@ -2,6 +2,7 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Separator ?>
 <?import org.spidermole.app.appraiser.SwipeView?>
 
 <BorderPane xmlns="http://javafx.com/javafx/9.0.1"
@@ -10,8 +11,10 @@
 	<center>
 		<HBox alignment="CENTER" BorderPane.alignment="CENTER">
 			<BorderPane fx:id="fieldStreamViewContainer" />
+			<Separator orientation="VERTICAL" halignment="CENTER" />
 			<SwipeView fx:id="fieldSwipeView" />
-			<BorderPane fx:id="fieldResultsViewContainer" />
+			<Separator orientation="VERTICAL" halignment="CENTER" />
+			<BorderPane fx:id="fieldResultViewContainer" />
 		</HBox>
 	</center>
 </BorderPane>

@@ -11,6 +11,8 @@ import java.net.URL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.eventbus.EventBus;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,8 +45,27 @@ public class AppMain extends Application
 
 	private static final String WINDOW_TITLE = "Spidermole Meta-Research Tool";
 
+	/**
+	 * Just one Singleton couldn't hurt, right? It shall only be used to provide access to other, separately-testable,
+	 * shared object resources.
+	 * <p>
+	 * Also, it's only available on the FX thread.
+	 */
+	private static final ThreadLocal<AppContext> CONTEXT_INSTANCE = new ThreadLocal<>( );
+
 	// Data members.
+	private EventBus fieldEventBus = new EventBus( );
 	private MainController fieldMainController;
+
+
+	/**
+	 * @return the {@link AppContext} instance if called from the JavaFX application thread, or {@code null} otherwise.
+	 */
+	public static AppContext contextInstance( )
+	{
+		return CONTEXT_INSTANCE.get( );
+
+	} // contextInstance
 
 
 	private static void handleUncaughtException( Thread dead, Throwable cause )
@@ -62,31 +83,6 @@ public class AppMain extends Application
 		launch( args );
 
 	} // main
-
-
-	@Override
-	public void start( Stage primaryStage )
-	{
-		try
-			{
-			FXMLLoader loader = new FXMLLoader( MAIN_UI_FXML_DOC );
-			Parent uiRoot = loader.load( );
-			fieldMainController = loader.getController( );
-
-			Scene scene = new Scene( uiRoot );
-			primaryStage.setScene( scene );
-
-			primaryStage.setTitle( WINDOW_TITLE );
-			loadAndSetIcons( primaryStage );
-
-			primaryStage.show( );
-			}
-		catch ( Exception exception )
-			{
-			LOG.error( "Exception initializing main app window.", exception );
-			}
-
-	} // start
 
 
 	private void loadAndSetIcons( Stage stage )
@@ -109,18 +105,62 @@ public class AppMain extends Application
 
 
 	@Override
+	public void start( Stage primaryStage )
+	{
+		// First initialize the AppContext instance.
+		AppContext appContext = new AppContext( );
+		CONTEXT_INSTANCE.set( appContext );
+
+		// Initialize the UI.
+		try
+			{
+			FXMLLoader loader = new FXMLLoader( MAIN_UI_FXML_DOC );
+			Parent uiRoot = loader.load( );
+			fieldMainController = loader.getController( );
+
+			Scene scene = new Scene( uiRoot );
+			primaryStage.setScene( scene );
+
+			primaryStage.setTitle( WINDOW_TITLE );
+			loadAndSetIcons( primaryStage );
+
+			primaryStage.show( );
+			}
+		catch ( Exception exception )
+			{
+			LOG.error( "Exception initializing main app window.", exception );
+			}
+
+	} // start
+
+
+	@Override
 	public void stop( ) throws Exception
 	{
 		if ( fieldMainController != null )
 			{
 			try
 				{
+				// Other controllers are destroyed hierarchically by the MainController.
 				fieldMainController.destroy( );
 				}
 			catch ( Exception exception )
 				{
 				LOG.error( "Exception destroying the MainController. Resources could have been leaked!", exception );
 				}
+			}
+
+		// If anything is trying to use it at this point, it's wrong, and we'd want to know by letting it occasionally
+		// crash.
+		AppContext context = CONTEXT_INSTANCE.get( );
+		CONTEXT_INSTANCE.set( null );
+		try
+			{
+			context.destroy( );
+			}
+		catch ( Exception exception )
+			{
+			LOG.error( "Exception destroy the AppContext. Resources could have been leaked!", exception );
 			}
 
 		super.stop( );

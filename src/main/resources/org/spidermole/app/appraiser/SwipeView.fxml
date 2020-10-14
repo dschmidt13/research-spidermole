@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator ?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -9,11 +10,14 @@
 
 
 <fx:root type="BorderPane" xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/9.0.1">
+	xmlns="http://javafx.com/javafx/9.0.1" prefWidth="380">
 	<center>
 		<VBox BorderPane.alignment="CENTER">
 			<children>
 				<AppraisalTileView fx:id="fieldTile" />
+				<HBox alignment="CENTER" VBox.vgrow="ALWAYS" />
+				<Separator orientation="HORIZONTAL" halignment="CENTER"
+					valignment="CENTER" />
 				<HBox alignment="CENTER" spacing="5.0" VBox.vgrow="NEVER">
 					<children>
 						<Button fx:id="fieldNoButton" alignment="CENTER"
