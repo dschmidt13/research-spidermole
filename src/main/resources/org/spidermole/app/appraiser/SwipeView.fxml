@@ -15,7 +15,6 @@
 		<VBox BorderPane.alignment="CENTER" spacing="5.0">
 			<children>
 				<AppraisalTileView fx:id="fieldTile" />
-				<HBox alignment="CENTER" VBox.vgrow="ALWAYS" />
 				<Separator orientation="HORIZONTAL" halignment="CENTER"
 					valignment="CENTER" />
 				<HBox alignment="CENTER" spacing="100.0" VBox.vgrow="NEVER">

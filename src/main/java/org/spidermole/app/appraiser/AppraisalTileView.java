@@ -14,6 +14,7 @@ import org.spidermole.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -32,6 +33,9 @@ public class AppraisalTileView extends BorderPane implements Initializable
 	// Injected view members.
 	@FXML
 	private Label fieldTitle;
+
+	@FXML
+	private TextArea fieldAbstract;
 
 	public AppraisalTileView( )
 	{
@@ -59,8 +63,7 @@ public class AppraisalTileView extends BorderPane implements Initializable
 
 
 	/**
-	 * @param researchItem
-	 *                     the researchItem to set
+	 * @param researchItem the researchItem to set
 	 */
 	public void setResearchItem( ResearchItem researchItem )
 	{
@@ -76,11 +79,13 @@ public class AppraisalTileView extends BorderPane implements Initializable
 			{
 			// Clear all field values.
 			fieldTitle.setText( "" );
+			fieldAbstract.setText( "" );
 			}
 		else
 			{
 			// Update all field values.
 			fieldTitle.setText( fieldResearchItem.getTitle( ) == null ? "" : fieldResearchItem.getTitle( ) );
+			fieldAbstract.setText( fieldResearchItem.getAbstract( ) == null ? "" : fieldResearchItem.getAbstract( ) );
 			}
 
 	} // update
