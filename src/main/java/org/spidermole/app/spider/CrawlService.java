@@ -95,21 +95,20 @@ public class CrawlService extends Service<Integer>
 				URI nextUri = baseUrl.toURI( );
 
 				// Crawl once with the initial URL. (Small loop unwind to work in the delay.)
-				totalDiscovered += crawl( nextUri, correspondent );
-				LOG.debug( "Discovered " + totalDiscovered + " new documents from '" + nextUri + "'." );
+				int discovered = crawl( nextUri, correspondent );
+				totalDiscovered += discovered;
+				LOG.debug( "Discovered " + discovered + " new documents from '" + nextUri + "'." );
 				nextUri = correspondent.getNextPageUri( nextUri );
 
 				// Continue crawling as long as necessary (politely - wait between requests).
-				while ( nextUri != null )
+				while ( nextUri != null && discovered > 0 )
 					{
 					Thread.sleep( 1000 * correspondent.getCrawlDelaySeconds( ) );
-					int discovered = crawl( nextUri, correspondent );
 
+					discovered = crawl( nextUri, correspondent );
 					LOG.debug( "Discovered " + discovered + " new documents from '" + nextUri + "'." );
-
 					totalDiscovered += discovered;
-					if ( discovered > 0 )
-						nextUri = correspondent.getNextPageUri( nextUri );
+					nextUri = correspondent.getNextPageUri( nextUri );
 					}
 
 				return Integer.valueOf( totalDiscovered );
