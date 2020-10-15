@@ -81,8 +81,11 @@ public class AppraisalResultsController extends AbstractController
 
 	private QueryBuilder generateQueryBuilder( )
 	{
-		return new QueryBuilder( and( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ),
+		QueryBuilder builder = new QueryBuilder( and( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ),
 				or( gt( "yesVotes", 0 ), gt( "noVotes", 0 ) ) ) );
+		builder.limit( 5000 );
+
+		return builder;
 
 	} // generateQueryBuilder
 

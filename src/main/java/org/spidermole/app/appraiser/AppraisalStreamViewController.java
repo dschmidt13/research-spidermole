@@ -227,6 +227,9 @@ public class AppraisalStreamViewController extends AbstractController
 		// Generate the builder with the final choice of selector.
 		QueryBuilder builder = new QueryBuilder( compoundSelector );
 
+		// Raise query size limit past the Karman line!
+		builder.limit( 10000 );
+
 		// Set sort field.
 		// FIXME - The table needs to be indexed for that to work. Not important right now.
 		// builder.sort( Sort.asc( fieldSortBy.getValue( ).getDatabaseField( ) ) );
