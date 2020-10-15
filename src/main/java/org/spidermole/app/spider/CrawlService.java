@@ -150,12 +150,13 @@ public class CrawlService extends Service<Integer>
 					}
 				catch ( InterruptedException exception )
 					{
-					LOG.error( "Interrupted while attempting to enqueue discovered items from URI '" + "'!" );
+					LOG.error( "Interrupted while attempting to enqueue discovered items from URI '" + uri + "'!" );
 
 					// Restore the interrupt.
 					Thread.currentThread( ).interrupt( );
 
-					throw new Exception( "Interrupted while attempting to enqueue discovered items from URI '" + "'!" );
+					throw new Exception(
+							"Interrupted while attempting to enqueue discovered items from URI '" + uri + "'!" );
 					}
 
 			} // crawl
