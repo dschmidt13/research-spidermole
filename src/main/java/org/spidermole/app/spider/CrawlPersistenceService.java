@@ -49,6 +49,17 @@ public class CrawlPersistenceService extends Service<Void>
 	} // CrawlPersistenceService
 
 
+	private static int compareVersions( ResearchItem original, ResearchItem newItem )
+	{
+		// Attempt to parse the versions. Default to using the new value (returning negative) if we fail.
+		if ( original.getVersion( ) == null || newItem.getVersion( ) == null )
+			return -1;
+		else
+			return ( original.getVersion( ).intValue( ) - newItem.getVersion( ).intValue( ) );
+
+	} // compareVersions
+
+
 	@Override
 	protected Task<Void> createTask( )
 	{
@@ -81,8 +92,15 @@ public class CrawlPersistenceService extends Service<Void>
 						if ( !dupResult.getDocs( ).isEmpty( ) )
 							{
 							ResearchItem original = dupResult.getDocs( ).get( 0 );
+
+							// Special case: Don't persist anything if the version we have stored is the same or
+							// greater. Just move on.
+							if ( compareVersions( original, item ) >= 0 )
+								continue;
+
 							item.setId( original.getId( ) );
 							item.setRevision( original.getRevision( ) );
+							item.setCreateDate( original.getCreateDate( ) );
 
 							// Also preserve existing votes. This is a terrible place to do this, but that's mainly a
 							// consequence of the way votes are implemented (and they aren't going to change for now).
@@ -119,8 +137,10 @@ public class CrawlPersistenceService extends Service<Void>
 
 			} // call
 
+
 		};
 
 	} // createTask
+
 
 }
