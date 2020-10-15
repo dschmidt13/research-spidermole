@@ -45,6 +45,24 @@ public class ResearchItem extends ModelDocument
 	@SerializedName( "createDate" )
 	private Date fieldCreateDate;
 
+	@SerializedName( "authorCorresponding" )
+	private String fieldAuthorCorresponding;
+
+	@SerializedName( "authorCorrespondingInstitution" )
+	private String fieldAuthorCorrespondingInstitution;
+
+	@SerializedName( "archiveVersion" )
+	private Integer fieldVersion;
+
+	@SerializedName( "publishDetails" )
+	private String fieldPublicationDetail;
+
+	@SerializedName( "category" )
+	private String fieldCategory;
+
+	@SerializedName( "abstract" )
+	private String fieldAbstract;
+
 	@SerializedName( "yesVotes" )
 	private Integer fieldYesVotes;
 
@@ -53,7 +71,39 @@ public class ResearchItem extends ModelDocument
 
 	public ResearchItem( )
 	{
+		super( DATABASE_TYPE );
+
 	} // ResearchItem
+
+
+	/**
+	 * @return the abstract
+	 */
+	public String getAbstract( )
+	{
+		return fieldAbstract;
+
+	} // getAbstract
+
+
+	/**
+	 * @return the authorCorresponding
+	 */
+	public String getAuthorCorresponding( )
+	{
+		return fieldAuthorCorresponding;
+
+	} // getAuthorCorresponding
+
+
+	/**
+	 * @return the authorCorrespondingInstitution
+	 */
+	public String getAuthorCorrespondingInstitution( )
+	{
+		return fieldAuthorCorrespondingInstitution;
+
+	} // getAuthorCorrespondingInstitution
 
 
 	/**
@@ -64,6 +114,16 @@ public class ResearchItem extends ModelDocument
 		return fieldAuthors;
 
 	} // getAuthors
+
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory( )
+	{
+		return fieldCategory;
+
+	} // getCategory
 
 
 	/**
@@ -117,6 +177,16 @@ public class ResearchItem extends ModelDocument
 
 
 	/**
+	 * @return the publicationDetail
+	 */
+	public String getPublicationDetail( )
+	{
+		return fieldPublicationDetail;
+
+	} // getPublicationDetail
+
+
+	/**
 	 * @return the sourceUrl
 	 */
 	public String getSourceUrl( )
@@ -137,6 +207,16 @@ public class ResearchItem extends ModelDocument
 
 
 	/**
+	 * @return the version
+	 */
+	public Integer getVersion( )
+	{
+		return fieldVersion;
+
+	} // getVersion
+
+
+	/**
 	 * @return the yesVotes
 	 */
 	public Integer getYesVotes( )
@@ -147,6 +227,36 @@ public class ResearchItem extends ModelDocument
 
 
 	/**
+	 * @param abstract1 the abstract to set
+	 */
+	public void setAbstract( String abstract1 )
+	{
+		fieldAbstract = abstract1;
+
+	} // setAbstract
+
+
+	/**
+	 * @param authorCorresponding the authorCorresponding to set
+	 */
+	public void setAuthorCorresponding( String authorCorresponding )
+	{
+		fieldAuthorCorresponding = authorCorresponding;
+
+	} // setAuthorCorresponding
+
+
+	/**
+	 * @param authorCorrespondingInstitution the authorCorrespondingInstitution to set
+	 */
+	public void setAuthorCorrespondingInstitution( String authorCorrespondingInstitution )
+	{
+		fieldAuthorCorrespondingInstitution = authorCorrespondingInstitution;
+
+	} // setAuthorCorrespondingInstitution
+
+
+	/**
 	 * @param authors the authors to set
 	 */
 	public void setAuthors( List<String> authors )
@@ -154,6 +264,16 @@ public class ResearchItem extends ModelDocument
 		fieldAuthors = authors;
 
 	} // setAuthors
+
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory( String category )
+	{
+		fieldCategory = category;
+
+	} // setCategory
 
 
 	/**
@@ -172,7 +292,8 @@ public class ResearchItem extends ModelDocument
 	public void setDetailUrl( String detailUrl )
 	{
 		fieldDetailUrl = detailUrl;
-	}
+
+	} // setDetailUrl
 
 
 	/**
@@ -206,12 +327,23 @@ public class ResearchItem extends ModelDocument
 
 
 	/**
+	 * @param publicationDetail the publicationDetail to set
+	 */
+	public void setPublicationDetail( String publicationDetail )
+	{
+		fieldPublicationDetail = publicationDetail;
+
+	} // setPublicationDetail
+
+
+	/**
 	 * @param sourceUrl the sourceUrl to set
 	 */
 	public void setSourceUrl( String sourceUrl )
 	{
 		fieldSourceUrl = sourceUrl;
-	}
+
+	} // setSourceUrl
 
 
 	/**
@@ -222,6 +354,16 @@ public class ResearchItem extends ModelDocument
 		fieldTitle = title;
 
 	} // setTitle
+
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion( Integer version )
+	{
+		fieldVersion = version;
+
+	} // setVersion
 
 
 	/**

@@ -204,6 +204,9 @@ public class AppraisalStreamViewController extends AbstractController
 		// Always make sure we have the right document types.
 		andList.add( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ) );
 
+		// FIXME - Need to expose this to UI somehow! (But right now, these are all I care about.)
+		andList.add( eq( "category", "Systems Biology" ) );
+
 		// Exclude documents that already have an appraisal vote.
 		andList.add( or( exists( "noVotes", false ), lte( "noVotes", Integer.valueOf( 0 ) ) ) );
 		andList.add( or( exists( "yesVotes", false ), lte( "yesVotes", Integer.valueOf( 0 ) ) ) );

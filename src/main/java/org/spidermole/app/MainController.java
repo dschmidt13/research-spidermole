@@ -6,9 +6,9 @@
 package org.spidermole.app;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
-import org.spidermole.app.appraiser.AppraiserRootController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,8 @@ public class MainController extends AbstractController
 	@FXML
 	private BorderPane fieldMainPane;
 
-	private AppraiserRootController fieldAppraiserController;
+	// Data members.
+	private List<AbstractController> fieldChildControllers = new ArrayList<>( );
 
 	public MainController( )
 	{
@@ -34,16 +35,51 @@ public class MainController extends AbstractController
 
 
 	@Override
+	public void destroy( )
+	{
+		for ( AbstractController controller : fieldChildControllers )
+			{
+			try
+				{
+				controller.destroy( );
+				}
+			catch ( Exception exception )
+				{
+				fieldLog.error( "Exception destroying child controller of type " + controller.getClass( ) + ".",
+						exception );
+				}
+			}
+
+		super.destroy( );
+
+	} // destroy
+
+
+	@Override
 	public void initialize( URL location, ResourceBundle resources )
 	{
 		super.initialize( location, resources );
 
+		// Initialize the spider by loading its FXML.
+		try
+			{
+			FXMLLoader loader = new FXMLLoader( getClass( ).getResource( "spider/CrawlControlPanel.fxml" ) );
+			Node node = loader.load( );
+			fieldChildControllers.add( loader.getController( ) );
+			fieldMainPane.setTop( node );
+			}
+		catch ( Exception exception )
+			{
+			fieldLog.error( "Failed to load Spider view. "
+					+ "Please ensure the component's definitions are wired together properly.", exception );
+			}
+
 		// Initialize the appraiser by loading its FXML.
 		try
 			{
-			FXMLLoader loader = new FXMLLoader( MainController.class.getResource( "appraiser/AppraiserRoot.fxml" ) );
+			FXMLLoader loader = new FXMLLoader( getClass( ).getResource( "appraiser/AppraiserRoot.fxml" ) );
 			Node node = loader.load( );
-			fieldAppraiserController = loader.getController( );
+			fieldChildControllers.add( loader.getController( ) );
 			fieldMainPane.setCenter( node );
 			}
 		catch ( Exception exception )
@@ -52,27 +88,6 @@ public class MainController extends AbstractController
 					+ "Please ensure the component's definitions are wired together properly.", exception );
 			}
 
-
 	} // initialize
-
-
-	@Override
-	public void destroy( )
-	{
-		if ( fieldAppraiserController != null )
-			{
-			try
-				{
-				fieldAppraiserController.destroy( );
-				}
-			catch ( Exception exception )
-				{
-				fieldLog.error( "Exception destroying appraiser controller.", exception );
-				}
-			}
-
-		super.destroy( );
-
-	} // destroy
 
 }

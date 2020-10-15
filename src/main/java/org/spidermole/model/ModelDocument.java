@@ -13,14 +13,17 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author David Schmidt (dschmidt13@gmail.com)
  */
-public class ModelDocument extends Document
+public abstract class ModelDocument extends Document
 {
 	// Data members.
 	@SerializedName( "type" )
 	private String fieldType;
 
-	public ModelDocument( )
+
+	public ModelDocument( String type )
 	{
+		fieldType = type;
+
 	} // ModelDocument
 
 
