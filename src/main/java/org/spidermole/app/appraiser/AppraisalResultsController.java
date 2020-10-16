@@ -8,7 +8,6 @@ package org.spidermole.app.appraiser;
 import static com.cloudant.client.api.query.Expression.eq;
 import static com.cloudant.client.api.query.Expression.gt;
 import static com.cloudant.client.api.query.Operation.and;
-import static com.cloudant.client.api.query.Operation.or;
 
 import java.net.URL;
 import java.util.List;
@@ -81,8 +80,8 @@ public class AppraisalResultsController extends AbstractController
 
 	private QueryBuilder generateQueryBuilder( )
 	{
-		QueryBuilder builder = new QueryBuilder( and( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ),
-				or( gt( "yesVotes", 0 ), gt( "noVotes", 0 ) ) ) );
+		QueryBuilder builder = new QueryBuilder(
+				and( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ), gt( "yesVotes", 0 ) ) );
 		builder.limit( 5000 );
 
 		return builder;
