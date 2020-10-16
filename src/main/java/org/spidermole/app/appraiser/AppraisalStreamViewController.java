@@ -204,8 +204,10 @@ public class AppraisalStreamViewController extends AbstractController
 		// Always make sure we have the right document types.
 		andList.add( eq( DbUtils.FIELD_TYPE, ResearchItem.DATABASE_TYPE ) );
 
-		// FIXME - Need to expose this to UI somehow! (But right now, these are all I care about.)
-		andList.add( eq( "category", "Systems Biology" ) );
+		// FIXME - Need to expose this to UI somehow! (But right now, these are all I care about.) Also note that both
+		// capitalized and non-capitalized are used by the server. No intermediate punctuation seems to be used (only
+		// these two forms). All lowercase is far more prevalent.
+		andList.add( or( eq( "category", "Systems Biology" ), eq( "category", "systems biology" ) ) );
 
 		// Exclude documents that already have an appraisal vote.
 		andList.add( or( exists( "noVotes", false ), lte( "noVotes", Integer.valueOf( 0 ) ) ) );
