@@ -207,6 +207,8 @@ public class AppraisalStreamViewController extends AbstractController
 		// FIXME - Need to expose this to UI somehow! (But right now, these are all I care about.) Also note that both
 		// capitalized and non-capitalized are used by the server. No intermediate punctuation seems to be used (only
 		// these two forms). All lowercase is far more prevalent.
+		// FIXME - This "or" is slowing the query down more than 10x! Two separate queries would be SO much faster!
+		// Maybe this can be cleaned up during the above fix (UI exposure).
 		andList.add( or( eq( "category", "Systems Biology" ), eq( "category", "systems biology" ) ) );
 
 		// Exclude documents that already have an appraisal vote.
