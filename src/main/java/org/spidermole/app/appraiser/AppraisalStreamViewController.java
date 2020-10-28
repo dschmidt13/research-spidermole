@@ -232,6 +232,9 @@ public class AppraisalStreamViewController extends AbstractController
 		// Raise query size limit past the Karman line!
 		builder.limit( 10000 );
 
+		// Include execution stats to be logged so we can track our performance!
+		builder.executionStats( true );
+
 		// Set sort field.
 		// FIXME - The table needs to be indexed for that to work. Not important right now.
 		// builder.sort( Sort.asc( fieldSortBy.getValue( ).getDatabaseField( ) ) );
