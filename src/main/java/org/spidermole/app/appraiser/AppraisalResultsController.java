@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.spidermole.app.AbstractController;
-import org.spidermole.app.appraiser.AppraisalSummary.AuthorStats;
 import org.spidermole.app.db.DbQueryService;
 import org.spidermole.model.ResearchItem;
 import org.spidermole.util.DbUtils;
@@ -24,6 +23,7 @@ import com.cloudant.client.api.query.QueryBuilder;
 
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
 /**
@@ -34,9 +34,42 @@ import javafx.scene.control.ListView;
  */
 public class AppraisalResultsController extends AbstractController
 {
+	// Supporting classes.
+	// Thanks to https://stackoverflow.com/questions/53493111/javafx-wrapping-text-in-listview for this (adapted)
+	// text-wrap solution:
+	private static class SummaryCell extends ListCell<String>
+	{
+		@Override
+		protected void updateItem( String item, boolean empty )
+		{
+			super.updateItem( item, empty );
+
+			if ( empty || item == null )
+				{
+				setGraphic( null );
+				setText( null );
+				}
+			else
+				{
+				setMinWidth( getListView( ).getWidth( ) );
+				setMaxWidth( getListView( ).getWidth( ) );
+				setPrefWidth( getListView( ).getWidth( ) );
+
+				setWrapText( true );
+				setText( item );
+				}
+
+		} // updateItem
+
+
+	} // class SummaryCellFactory
+
 	// Injected FXML members.
 	@FXML
 	private ListView<String> fieldTopAuthors;
+
+	@FXML
+	private ListView<String> fieldTopInstitutions;
 
 	// Standard data members.
 	private DbQueryService<ResearchItem> fieldVoteLookupService;
@@ -162,6 +195,9 @@ public class AppraisalResultsController extends AbstractController
 	{
 		super.initialize( location, resources );
 
+		fieldTopAuthors.setCellFactory( ( listView ) -> new SummaryCell( ) );
+		fieldTopInstitutions.setCellFactory( ( listView ) -> new SummaryCell( ) );
+
 		// Initialize the lookup service for items that have been voted on. Note that we only need one copy of the
 		// QueryBuilder, since the same query should be running each time this service runs (if more than once).
 		fieldVoteLookupService = new DbQueryService<>( ResearchItem.class );
@@ -186,14 +222,21 @@ public class AppraisalResultsController extends AbstractController
 
 	private void updateSummary( AppraisalSummary summary )
 	{
-		// FIXME - We should actually do most of this with JavaFX bindings.
-		List<AuthorStats> authorList = summary.getAuthorStatsByYes( );
+		// FIXME - We should probably do most of this with JavaFX bindings.
 
 		// Build some cheap summaries of the most popular authors.
-		List<String> authorSummaries = authorList.stream( ).limit( 20 ).filter( ( stats ) -> stats.getYesCount( ) > 0 )
-				.map( ( stats ) -> stats.getAuthor( ) + " (" + stats.getYesCount( ) + ")" )
+		List<String> authorSummaries = summary.getAuthorStatsByYes( ).stream( ).limit( 20 )
+				.filter( ( stats ) -> stats.getYesCount( ) > 0 )
+				.map( ( stats ) -> stats.getValue( ) + " (" + stats.getYesCount( ) + ")" )
 				.collect( Collectors.toList( ) );
 		fieldTopAuthors.getItems( ).setAll( authorSummaries );
+
+		// Do the same for their associated institutions.
+		List<String> institutionSummaries = summary.getInstitutionStatsByYes( ).stream( ).limit( 10 )
+				.filter( ( stats ) -> stats.getYesCount( ) > 0 )
+				.map( ( stats ) -> stats.getValue( ) + " (" + stats.getYesCount( ) + ")" )
+				.collect( Collectors.toList( ) );
+		fieldTopInstitutions.getItems( ).setAll( institutionSummaries );
 
 	} // updateSummary
 

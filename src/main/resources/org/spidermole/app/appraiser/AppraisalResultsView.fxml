@@ -7,16 +7,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.spidermole.app.appraiser.AppraisalResultsController">
+<BorderPane xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="org.spidermole.app.appraiser.AppraisalResultsController">
 	<center>
 		<VBox spacing="5.0" BorderPane.alignment="CENTER">
 			<children>
-				<Label text="Top 20 Authors (by Interest Count):" wrapText="true">
+				<Label text="Top 20 Authors:" wrapText="true">
 					<font>
 						<Font name="System Bold" size="12.0" />
 					</font>
 				</Label>
-				<ListView fx:id="fieldTopAuthors" focusTraversable="false" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+				<ListView fx:id="fieldTopAuthors" focusTraversable="false"
+					prefWidth="200.0" VBox.vgrow="ALWAYS" />
+				<Label text="Top 10 Institutions:" wrapText="true">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font>
+				</Label>
+				<ListView fx:id="fieldTopInstitutions"
+					focusTraversable="false" prefWidth="200.0" VBox.vgrow="ALWAYS" />
 			</children>
 			<BorderPane.margin>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

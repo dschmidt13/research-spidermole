@@ -25,18 +25,18 @@ public class AppraisalSummary
 	/**
 	 * A simple struct-type class to associate and sort data together.
 	 */
-	public static class AuthorStats
+	public static class VoteInfo
 	{
 		// Data members.
-		private final String fieldAuthor;
+		private final String fieldValue;
 		private int fieldYesCount;
 		private int fieldNoCount;
 
-		public AuthorStats( String author )
+		public VoteInfo( String value )
 		{
-			fieldAuthor = author;
+			fieldValue = value;
 
-		} // AuthorStats
+		} // VoteDatum
 
 
 		private void addNoVotes( Integer count )
@@ -55,18 +55,18 @@ public class AppraisalSummary
 		} // addYesVotes
 
 
-		public String getAuthor( )
-		{
-			return fieldAuthor;
-
-		} // getAuthor
-
-
 		public int getNoCount( )
 		{
 			return fieldNoCount;
 
 		} // getNoCount
+
+
+		public String getValue( )
+		{
+			return fieldValue;
+
+		} // getValue
 
 
 		public int getYesCount( )
@@ -75,13 +75,13 @@ public class AppraisalSummary
 
 		} // getYesCount
 
-	} // AuthorStats
+	} // class VoteInfo
 
 
-	private static final Comparator<AuthorStats> YES_COMPARATOR = new Comparator<>( )
+	private static final Comparator<VoteInfo> YES_COMPARATOR = new Comparator<>( )
 	{
 		@Override
-		public int compare( AuthorStats o1, AuthorStats o2 )
+		public int compare( VoteInfo o1, VoteInfo o2 )
 		{
 			return o1.getYesCount( ) - o2.getYesCount( );
 
@@ -90,11 +90,26 @@ public class AppraisalSummary
 
 
 	// Data members.
-	private Map<String, AuthorStats> fieldVotesByAuthor = new HashMap<>( );
+	private Map<String, VoteInfo> fieldVotesByAuthor = new HashMap<>( );
+	private Map<String, VoteInfo> fieldVotesByInstitution = new HashMap<>( );
 
 	public AppraisalSummary( )
 	{
 	} // AppraisalSummary
+
+
+	private static List<VoteInfo> extractStatsByYes( Map<String, VoteInfo> votes, boolean ascending )
+	{
+		List<VoteInfo> result = new ArrayList<>( votes.values( ) );
+		Collections.sort( result, YES_COMPARATOR );
+
+		// The comparator will naturally sort in ascending order. We usually want descending.
+		if ( !ascending )
+			Collections.reverse( result );
+
+		return result;
+
+	} // getStatsByYes
 
 
 	public void addResearchItem( ResearchItem item )
@@ -106,31 +121,46 @@ public class AppraisalSummary
 			{
 			for ( String author : item.getAuthors( ) )
 				{
-				AuthorStats stats = fieldVotesByAuthor.get( author );
-				if ( stats == null )
+				VoteInfo info = fieldVotesByAuthor.get( author );
+				if ( info == null )
 					{
-					stats = new AuthorStats( author );
-					fieldVotesByAuthor.put( author, stats );
+					info = new VoteInfo( author );
+					fieldVotesByAuthor.put( author, info );
 					}
 
-				stats.addYesVotes( item.getYesVotes( ) );
-				stats.addNoVotes( item.getNoVotes( ) );
+				info.addYesVotes( item.getYesVotes( ) );
+				info.addNoVotes( item.getNoVotes( ) );
 				}
+			}
+
+		String inst = item.getAuthorCorrespondingInstitution( );
+		if ( inst != null )
+			{
+			VoteInfo info = fieldVotesByInstitution.get( inst );
+			if ( info == null )
+				{
+				info = new VoteInfo( inst );
+				fieldVotesByInstitution.put( inst, info );
+				}
+
+			info.addYesVotes( item.getYesVotes( ) );
+			info.addNoVotes( item.getNoVotes( ) );
 			}
 
 	} // addResearchItem
 
 
-	public List<AuthorStats> getAuthorStatsByYes( )
+	public List<VoteInfo> getAuthorStatsByYes( )
 	{
-		List<AuthorStats> result = new ArrayList<>( fieldVotesByAuthor.values( ) );
-		Collections.sort( result, YES_COMPARATOR );
-
-		// The comparator will sort ascending. We want descending.
-		Collections.reverse( result );
-
-		return result;
+		return extractStatsByYes( fieldVotesByAuthor, false );
 
 	} // getAuthorStatsByYes
+
+
+	public List<VoteInfo> getInstitutionStatsByYes( )
+	{
+		return extractStatsByYes( fieldVotesByInstitution, false );
+
+	} // getInstitutionStatsByYes
 
 }
